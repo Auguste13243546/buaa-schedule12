@@ -270,14 +270,18 @@ function renderTodos() {
 
 function openSheet(html) {
   $sheet.innerHTML = html;
-  $sheet.classList.remove('hidden');
-  $backdrop.classList.remove('hidden');
+  // 读一次几何属性强制重排，确保浏览器以隐藏态完成布局，过渡才会播放
+  void $sheet.offsetHeight;
+  $sheet.classList.add('open');
+  $backdrop.classList.add('open');
 }
 
 function closeSheet() {
-  $sheet.classList.add('hidden');
-  $backdrop.classList.add('hidden');
-  $sheet.innerHTML = '';
+  $sheet.classList.remove('open');
+  $backdrop.classList.remove('open');
+  setTimeout(() => {
+    if (!$sheet.classList.contains('open')) $sheet.innerHTML = '';
+  }, 400);
 }
 
 function todoForm(existing, presetDate) {
@@ -473,14 +477,20 @@ window.addEventListener('hashchange', () => {
   render();
 });
 
+let lastRoute = null;
+
 function render() {
   closeSheet();
   renderTabs();
   renderHeader();
   $title.textContent = TABS.find((t) => t.route === route).label;
+
+  const entering = route !== lastRoute;
+  lastRoute = route;
+  $view.classList.toggle('entering', entering);
   $view.innerHTML =
     route === 'today' ? renderToday() : route === 'schedule' ? renderSchedule() : renderTodos();
-  window.scrollTo(0, 0);
+  if (entering) window.scrollTo(0, 0);
 }
 
 onChange(render);

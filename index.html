@@ -3,11 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f5f7fa" />
+    <meta name="theme-color" content="#e8ecf3" />
     <title>我的日程</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- 背景层：纯抽象柔色渐变，用于承载玻璃材质的折射，不含任何具象图形 -->
+    <div class="ambient" aria-hidden="true">
+      <div class="ambient-wash"></div>
+      <div class="ambient-orb orb-a"></div>
+      <div class="ambient-orb orb-b"></div>
+      <div class="ambient-orb orb-c"></div>
+      <div class="ambient-grain"></div>
+    </div>
+
     <header class="topbar">
       <div class="topbar-inner">
         <div class="topbar-title">
@@ -22,8 +31,8 @@
 
     <nav class="tabs tabs-narrow" id="tabs-narrow"></nav>
 
-    <div id="sheet-backdrop" class="sheet-backdrop hidden"></div>
-    <div id="sheet" class="sheet hidden"></div>
+    <div id="sheet-backdrop" class="sheet-backdrop"></div>
+    <div id="sheet" class="sheet" role="dialog" aria-modal="true"></div>
 
     <script src="js/calendar.js"></script>
     <script src="js/courses.js"></script>
